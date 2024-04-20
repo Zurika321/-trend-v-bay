@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Typing Animation</title>
+    <style>
+      body {
+        background-color: blueviolet;
+      }
+
+      /* Tạo hiệu ứng đánh chữ từ từ */
+      @keyframes typing {
+        from {
+          width: 0;
+        }
+        to {
+          width: 100%;
+        }
+      }
+
+      /* Tạo animation cho phần tử span */
+      .typewriter {
+        overflow: hidden;
+        border-right: 0.15em solid orange;
+        max-width: 90%;
+        margin: 0 auto;
+        letter-spacing: 0.15em;
+        animation: typing 3.5s steps(40, end),
+          blink-caret 0.75s step-end infinite;
+      }
+
+      .hello {
+        color: rgb(255, 255, 255);
+        font-size: 75px;
+        font-weight: bold;
+      }
+
+      /* CSS để định dạng hình trái tim */
+      .heart {
+        width: 100px;
+        height: 90px;
+        background-color: red;
+        position: relative;
+        transform: rotate(-45deg);
+        margin: 19px auto;
+        position: fixed;
+        z-index: -1;
+      }
+
+      .heart:before,
+      .heart:after {
+        content: "";
+        width: 90px;
+        height: 90px;
+        background-color: red;
+        border-radius: 50%;
+        position: absolute;
+      }
+
+      .heart:before {
+        top: -50px;
+        left: 0;
+      }
+
+      .heart:after {
+        top: 0;
+        left: 50px;
+      }
+
+      /* Hiệu ứng đèn nhấp nháy */
+      @keyframes blink-caret {
+        from,
+        to {
+          border-color: transparent;
+        }
+        50% {
+          border-color: rgb(85, 0, 255);
+        }
+      }
+
+      @media screen and (max-width: 600px) {
+        .hello {
+          font-size: 20px;
+        }
+      }
+
+      @keyframes fadeheart {
+        0% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+        }
+      }
+
+      .heart:nth-child(1) {
+        animation: fadeheart 3s infinite 0s;
+      }
+
+      .heart:nth-child(2) {
+        animation: fadeheart 3s infinite 0.5s;
+      }
+
+      .heart:nth-child(3) {
+        animation: fadeheart 4s infinite 1s;
+      }
+
+      .heart:nth-child(4) {
+        animation: fadeheart 3s infinite 1.5s;
+      }
+
+      .heart:nth-child(5) {
+        animation: fadeheart 2s infinite 2s;
+      }
+      #playButton {
+        display: block;
+        margin: auto;
+        width: 300px;
+        height: 50px;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      class="typewriter, hello"
+      style="width: 90%; display: block; margin: auto; text-align: center"
+    >
+      <span id="asd" class="typewriter"
+        >My baby~ I love you so much forever you and I /I love you oh~ I love
+        you so much forever you and I !!! /My baby~ I love you so much forever
+        you and I /I love you oh~I love you so much forever you and I !!!</span
+      >
+    </div>
+
+    <div class="hearts">
+      <div
+        class="heart"
+        style="top: 10%; left: 10%; transform: rotate(350deg)"
+      ></div>
+      <div
+        class="heart"
+        style="top: 40%; left: 80%; transform: rotate(-70deg)"
+      ></div>
+      <div
+        class="heart"
+        style="top: 20%; left: 50%; transform: rotate(340deg)"
+      ></div>
+      <div
+        class="heart"
+        style="top: 80%; left: 70%; transform: rotate(350deg)"
+      ></div>
+      <div
+        class="heart"
+        style="top: 75%; left: 34%; transform: rotate(-70deg)"
+      ></div>
+      <div class="heart" style="visibility: hidden"></div>
+    </div>
+    <audio id="audioPlayer" src="music.mp3" type="audio/mp3"></audio>
+    <button id="playButton">Playing</button>
+    <script>
+      var text = document.getElementById("asd");
+      text.style.visibility = "hidden";
+      var str = text.innerHTML;
+      var buttonplay = document.getElementById("playButton").style;
+      buttonplay.position = "fixed";
+      buttonplay.top = "50%";
+      buttonplay.left = "0";
+      buttonplay.right = "0";
+      function hienchu() {
+        var splitText = str.split("");
+        text.innerHTML = "";
+        let delay = 0;
+        let time = 140;
+        // Thêm từng ký tự một với khoảng cách thời gian
+        for (let i = 0; i < splitText.length; i++) {
+          if (splitText[i] == " ") {
+            // Bỏ qua khoảng trắng
+          } else {
+            setTimeout(function () {
+              if (splitText[i - 1] == " ") {
+                text.innerHTML += " ";
+              }
+              // Sử dụng hàm setTimeout để tạo delay cho từng ký tự
+              if (splitText[i] == "/") {
+                text.innerHTML += "<br>";
+                time = 0;
+              } else if (splitText[i] == "!") {
+                text.innerHTML += "!";
+                time = 300;
+              } else {
+                // Thêm từng ký tự vào đối tượng văn bản
+                text.innerHTML += splitText[i];
+                time = 140;
+                // Tăng thời gian delay cho ký tự tiếp theo
+              }
+            }, delay);
+            delay += time;
+          }
+        }
+      }
+      document
+        .getElementById("playButton")
+        .addEventListener("click", function () {
+          var text = (document.getElementById("asd").style.visibility =
+            "visible");
+          var audio = document.getElementById("audioPlayer");
+          audio.play();
+          hienchu();
+          buttonplay.visibility = "hidden";
+          buttonplay.position = "";
+          setTimeout(() => {
+            buttonplay.visibility = "visible";
+          }, 25000);
+        });
+    </script>
+  </body>
+</html>
